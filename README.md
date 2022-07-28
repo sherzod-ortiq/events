@@ -1,48 +1,48 @@
 # Events
 
-App for publishing events
+## Description
+Event scheduler app built with Ruby and Ruby on Rails.<br>
+You schedule events by creating event cards and they become active (red colored) on due time.<br>
+App consists of 4 Docker containers: 1 - rails app, 2 - sidekiq worker,<br>
+3 - redis database, 4 - postgres database. <br>
+The volume binding is used in development to map container files and folders to host machine.<br>
+Volume binding makes it possible to exclude files from mapping.<br>
+There are separate Docker and Docker compose files for development and test environments.<br>
 
-## Requrements
+## Tech stack
+Docker<br>
+Docker compose<br>
+Ruby<br>
+Ruby on Rails<br>
+Sidekiq<br>
+Postgres<br>
+Redis<br>
 
-Ruby version:
+## How to make it work
 
-	ruby = 2.6.10
+**For development environment:**<br>
+cd to project root folder.<br>
+We have 4 containers in development environment.<br>
+Create images + create and run containers:<br>
+`docker-compose -f ./docker-compose-dev.yml up`<br>
+Stop and remove containers:<br>
+`docker-compose -f ./docker-compose-dev.yml down`<br>
+Rebuild images + create and run containers:<br>
+`docker-compose -f ./docker-compose-dev.yml up --build`<br>
+List services:<br>
+`docker-compose -f ./docker-compose-dev.yml ps`<br>
+App runs on *localhost:3000*<br>
+Sidekiq dashboard is on *localhost:3000/sidekiq/*<br><br>
 
-Rails version:
-
-	rails '~> 6.0.3'
-
-Database:
-
-	Postgresql
-
-## Configuration for local and test environments
-
-1. Create postgresql user **events**
-
-2. Create postgresql databases **events_development** and **events_test** by user **events**
-
-3. Install dependencies
-
-		bundle install
-
-4. Run migrations
-
-		rails db:migrate
-
-## Run tests
-
-	rspec
-
-## Run app
-
-The app uses Sidekiq, Redis for backgroung jobs for updating the statuses of events
-Run with foreman:
-
-	foreman start -f Procfile.dev
-
-Run each command separately:
-
-	redis-server
-	sidekiq
-	rails server -p 3000
+**For test environment:**<br>
+cd to project root folder.<br>
+We have 4 containers in test environment.<br>
+Create images + create and run containers:<br>
+`docker-compose -f ./docker-compose-test.yml up`<br>
+Stop and remove containers:<br>
+`docker-compose -f ./docker-compose-test.yml down`<br>
+Rebuild images + create and run containers:<br>
+`docker-compose -f ./docker-compose-test.yml up --build`<br>
+List services:<br>
+`docker-compose -f ./docker-compose-test.yml ps`<br>
+Don't forget to stop all the services after running tests<br><br>
