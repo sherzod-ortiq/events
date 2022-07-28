@@ -1,0 +1,16 @@
+:verbose: true
+:timeout: 25
+:max_retries: 2
+:queues:
+  - critical
+  - default
+  - low
+
+test:
+  :concurrency: 5
+
+development:
+  :concurrency: 5
+
+production:
+  :concurrency: 10
