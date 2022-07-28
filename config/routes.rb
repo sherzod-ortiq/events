@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   root 'home#index'
   devise_for :users
@@ -7,5 +9,5 @@ Rails.application.routes.draw do
       resources :events, only: [:index, :create, :destroy, :update]
     end
   end
-
+  mount Sidekiq::Web => "/sidekiq"
 end

@@ -6,7 +6,7 @@ App for publishing events
 
 Ruby version:
 
-	ruby = 2.6.3
+	ruby = 2.6.10
 
 Rails version:
 

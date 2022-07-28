@@ -1,0 +1,73 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres:14.4-alpine'
+    volumes:
+      - '~/docker/volumes/events/test/postgresql:/var/lib/postgresql/data'
+    # Database name, user name, user password are taken from those environment variables.
+    # Database is created there and no need to run rails db:create.
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=events_test
+      - POSTGRES_USER=events_test
+      - POSTGRES_PASSWORD=events_test
+    hostname: 'postgres'
+    expose:
+      - '5432'
+    ports:
+      - '5432:5432'
+
+  redis:
+    image: 'redis:7.0.4-alpine'
+    volumes:
+      - '~/docker/volumes/events/test/redis:/data'
+    hostname: 'redis'
+    ports:
+      - '6379:6379'
+
+  sidekiq:
+    build:
+      context: ./
+      dockerfile: Dockerfile-sidekiq.test
+    volumes:
+      - '/sidekiq/node_modules'
+      - './:/sidekiq'
+    environment:
+      - RAILS_ENV=test
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=events_test
+      - POSTGRES_USER=events_test
+      - POSTGRES_PASSWORD=events_test
+      - REDIS_URL_SIDEKIQ=redis://redis:6379/1
+    depends_on:
+      - postgres
+      - redis
+    # Here the cron jobs start before the sidekiq server is started, it needs to be addressed.
+    command: sh -c '. ~/.bashrc && bundle exec whenever --update-crontab && service cron restart && bundle exec sidekiq -r ./ --environment test | tee -a ./log/sidekiq-test.log'
+
+  events_app:
+    build:
+      dockerfile: Dockerfile-events_app.test
+      context: ./
+    volumes:
+      - '/events_app/node_modules'
+      - './:/events_app'
+    environment:
+      - RAILS_ENV=test
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=events_test
+      - POSTGRES_USER=events_test
+      - POSTGRES_PASSWORD=events_test
+      - REDIS_URL_SIDEKIQ=redis://redis:6379/1
+    hostname: 'events_app'
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+      - redis
+      - sidekiq
+    command: sh -c '. ~/.bashrc && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rspec --format documentation | tee -a ./log/rspec-test.log'

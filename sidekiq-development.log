@@ -1,0 +1,8 @@
+2022-07-27T17:32:07.240Z pid=1108 tid=x9aswetkk INFO: Booting Sidekiq 6.0.7 with redis options {:url=>"redis://redis:6379/1"}
+2022-07-27T17:32:12.553Z pid=1108 tid=x9aswetkk INFO: Booted Rails 6.0.5.1 application in development environment
+2022-07-27T17:32:12.553Z pid=1108 tid=x9aswetkk INFO: Running in ruby 2.6.10p210 (2022-04-12 revision 67958) [aarch64-linux]
+2022-07-27T17:32:12.554Z pid=1108 tid=x9aswetkk INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2022-07-27T17:32:12.554Z pid=1108 tid=x9aswetkk INFO: Upgrade to Sidekiq Pro for more features and support: https://sidekiq.org
+2022-07-27T17:32:12.557Z pid=1108 tid=x9aswetkk DEBUG: Client Middleware: 
+2022-07-27T17:32:12.557Z pid=1108 tid=x9aswetkk DEBUG: Server Middleware: 
+2022-07-27T17:32:12.558Z pid=1108 tid=x9aswetkk DEBUG: {:queues=>["critical", "default", "low"], :labels=>[], :concurrency=>5, :require=>"./", :environment=>"development", :timeout=>25, :poll_interval_average=>nil, :average_scheduled_poll_interval=>5, :error_handlers=>[#<Sidekiq::ExceptionHandler::Logger:0x0000aaaade561830>], :death_handlers=>[], :lifecycle_events=>{:startup=>[], :quiet=>[], :shutdown=>[], :heartbeat=>[]}, :dead_max_jobs=>10000, :dead_timeout_in_seconds=>15552000, :reloader=>#<Sidekiq::Rails::Reloader @app=Events::Application>, :verbose=>true, :max_retries=>2, :test=>{:concurrency=>5}, :production=>{:concurrency=>10}, :config_file=>"./config/sidekiq.yml", :strict=>true, :tag=>"sidekiq", :identity=>"a02d7736150b:1108:4123adff22c9"}

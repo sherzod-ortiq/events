@@ -16,5 +16,7 @@ module Events
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 		config.active_job.queue_adapter = :sidekiq
+    # events_app is service name
+    config.logger = Logger.new(Rails.root.join('log', "events_app-#{Rails.env}.log"))
   end
 end
