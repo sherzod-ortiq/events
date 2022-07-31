@@ -27,20 +27,16 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | b
 # Install node js, newer version is having problems with webpacker.
 RUN . ~/.bashrc && nvm install 14.0.0
 
-# Needed by npm.
+# Needed by yarn.
 RUN apt-get update && apt-get -y install python2
 
-COPY ./package.json ./
-
-COPY ./package-lock.json ./
-
-# Install node js packages, you may need VPN as some sources are not available from certain locations.
-RUN . ~/.bashrc && npm install
-
-# Solve - yarn: command not found error.
+# Install yarn package manager globally (not added into package.json).
 RUN . ~/.bashrc && npm install --global yarn
+
+# No need for package-lock.json, package.json is enough, we use yarn package manager.
+COPY ./package.json ./
 
 COPY ./yarn.lock ./
 
-# Install all the javascript packages with yarn.
+# Install the node js packages with yarn, you may need VPN as some resources are not available from certain locations.
 RUN . ~/.bashrc && yarn install --check-files
