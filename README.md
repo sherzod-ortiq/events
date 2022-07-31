@@ -45,4 +45,6 @@ Rebuild images + create and run containers:<br>
 `docker-compose -f ./docker-compose-test.yml up --build`<br>
 List services:<br>
 `docker-compose -f ./docker-compose-test.yml ps`<br>
-Don't forget to stop all the services after running tests<br><br>
+Container where tests are run may need to restart few times<br>
+in order to connect to postgres.<br>
+Don't forget to stop all the services after running tests.<br><br>
